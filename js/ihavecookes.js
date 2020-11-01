@@ -70,6 +70,7 @@ function OtherPopup(){
         '</li>';
     });
     code +='</ul>';
+    code += '<input type="button" value="Guardar Cookies" class="btn btn-primary" style="float:right; margin-top:15px;" id="guardar" />';
     let html = $(content).append(code);
     $('#Modal_Cookies .modal-footer').css({
         height: '0px',
@@ -88,11 +89,31 @@ function OtherPopup(){
         });
     });
 
+    $('#guardar').on('click', function(){
+        Selectchecks(content);
+        $(content).children().remove();
+        $(content).append(firstpopup);
+        $('#Modal_Cookies .modal-footer').css({
+            height: 'auto',
+            overflow: 'inherit',
+            padding: '.75rem'
+        });
+    });
+
     if(getCookie('Accept')){
         LoadChecks(content);
     }else{
         $(content).find('input[type="checkbox"]').each(function(){
             this.click();
+            for(var a = 0; a < cookies.length; a++){
+                if(this.name === cookies[a].value){
+                    if(cookies[a].select != undefined){
+                        if(!cookies[a].select){
+                            this.click();
+                        }
+                    }
+                }
+            }
         });
     }
 }
